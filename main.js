@@ -1,5 +1,7 @@
 var ScoreLeftWrist = 0;
-var status;
+var ScoreRightWrist = 0;
+var staus = "";
+var red = "";
 
 function setup(){
     canvas = createCanvas(350,350);
@@ -13,20 +15,30 @@ function setup(){
 }
 
 function draw(){
-    image(video,0,0,350,350);
+    image(video, 0, 0, 350, 350);
 
     fill("red");
     stroke("red");
 
-    status = song1.isPlaying();
+    staus = song1.isPlaying();
+    red = song2.isPlaying();
     if(ScoreLeftWrist > 0.2){
         circle(leftWristX,leftWristY,20);
         song2.stop();
 
-        if(status == false){
+        if(staus == false){
            song1.play();
-           document.getElementById("song").innerHTML = "Wolves";
+           document.getElementById("song_name").innerHTML = "Song Name: Wolves";
         }
+    }
+    if(ScoreRightWrist > 0.2){
+      circle(rightWristX,rightWristY,20);
+      song1.stop();
+
+      if(red == false){
+          song2.play();
+          document.getElementById("song_name").innerHTML = "Song Name: Faded";
+      }
     }
 }
 
@@ -57,5 +69,6 @@ function gotPoses(results){
         leftWristY = results[0].pose.leftWrist.y;
 
         ScoreLeftWrist = results[0].pose.keypoints[9].score;
+        ScoreRightWrist = results[0].pose.keypoints[10].score;
     }
 }
